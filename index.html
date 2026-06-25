@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GH-600 Practice Site — Agentic AI Developer</title>
+<style>
+  :root {
+    --ivory:#FAF9F5; --white:#FFFFFF; --slate:#141413;
+    --clay:#D97757; --gold:#D7A84F; --olive:#788C5D; --rust:#B04A3F; --oat:#E3DACC;
+    --gray-150:#F0EEE6; --gray-300:#D1CFC5; --gray-500:#87867F; --gray-700:#3D3D3A;
+    --ink:#F7F1DF; --panel:#191817; --panel-2:#211F1B; --line:rgba(215,168,79,.22);
+    --border:1.5px solid var(--gray-300); --dark-border:1px solid rgba(215,168,79,.24);
+    --radius-panel:16px; --radius-row:10px; --radius-pill:999px;
+    --serif: ui-serif, Georgia, "Times New Roman", serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; font-family:var(--sans); color:var(--ink); background:
+    radial-gradient(circle at 18% 0%, rgba(215,168,79,.18), transparent 32rem),
+    radial-gradient(circle at 82% 10%, rgba(217,119,87,.12), transparent 28rem),
+    linear-gradient(180deg,#0f0e0d 0%,#171513 38%,#0f0e0d 100%);
+    line-height:1.6; -webkit-font-smoothing:antialiased; }
+  a { color:#F1C76F; text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  .wrap { max-width:1180px; margin:0 auto; padding:36px 24px 96px; }
+  .eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#B9A66E; }
+  h1,h2,h3 { font-family:var(--serif); font-weight:500; letter-spacing:-.01em; margin:0; }
+  h1 { font-size:clamp(42px,7vw,86px); line-height:.95; max-width:980px; }
+  h2 { font-size:clamp(28px,4vw,44px); margin-bottom:16px; scroll-margin-top:24px; }
+  h3 { font-size:22px; line-height:1.18; }
+  p { margin:0; color:rgba(247,241,223,.76); }
+  .lead { font-size:19px; max-width:760px; color:rgba(247,241,223,.8); margin-top:22px; }
+  .nav { position:sticky; top:0; z-index:10; backdrop-filter:blur(18px); background:rgba(15,14,13,.76); border-bottom:var(--dark-border); }
+  .nav-inner { max-width:1180px; margin:0 auto; padding:12px 24px; display:flex; gap:14px; align-items:center; overflow-x:auto; }
+  .brand { font-family:var(--mono); color:#F5D78F; white-space:nowrap; margin-right:auto; }
+  .nav a { font-family:var(--mono); font-size:12px; color:rgba(247,241,223,.7); white-space:nowrap; }
+  .hero { padding:74px 0 36px; }
+  .hero-actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:28px; }
+  button,.btn { border:0; cursor:pointer; border-radius:var(--radius-pill); font-family:var(--mono); font-size:12px; padding:11px 16px; display:inline-flex; align-items:center; gap:8px; }
+  .btn-primary, button.primary { background:linear-gradient(135deg,#F0C56E,#D97757); color:#141413; font-weight:700; box-shadow:0 14px 40px rgba(217,119,87,.18); }
+  .btn-ghost, button.ghost { background:rgba(255,255,255,.04); color:var(--ink); border:1px solid rgba(247,241,223,.16); }
+  .btn-small { padding:7px 10px; font-size:11px; }
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:38px 0 22px; }
+  .stat,.card,.domain-card,.quiz-shell,.flash-shell,.table-card { background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035)); border:var(--dark-border); border-radius:var(--radius-panel); box-shadow:0 18px 70px rgba(0,0,0,.22); }
+  .stat { padding:18px; }
+  .stat strong { display:block; font-family:var(--serif); font-size:34px; color:#F6D990; line-height:1; margin-top:8px; }
+  section { padding:54px 0; }
+  .section-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:22px; }
+  .section-head p { max-width:700px; }
+  .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  .domain-card { padding:20px; min-height:260px; }
+  .domain-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .domain-num,.pill,.badge,.weight { font-family:var(--mono); font-size:11px; border-radius:var(--radius-pill); padding:4px 9px; }
+  .domain-num { background:rgba(215,168,79,.16); color:#F4D991; border:1px solid rgba(215,168,79,.22); }
+  .weight { color:#EBC878; border:1px solid rgba(235,200,120,.2); }
+  .pill { background:rgba(215,168,79,.14); color:#F3D17D; border:1px solid rgba(215,168,79,.2); }
+  .badge { background:rgba(255,255,255,.07); color:rgba(247,241,223,.72); border:1px solid rgba(255,255,255,.1); }
+  .domain-card h3 { color:#FFF2C5; margin-bottom:10px; }
+  details { margin-top:14px; color:rgba(247,241,223,.78); }
+  summary { font-family:var(--mono); font-size:12px; color:#EBC878; cursor:pointer; }
+  ul { margin:10px 0 0 18px; color:rgba(247,241,223,.72); padding:0; }
+  li { margin:5px 0; }
+  .table-card { overflow:hidden; }
+  table { width:100%; border-collapse:collapse; }
+  th { text-align:left; color:#EBC878; font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.05em; background:rgba(215,168,79,.08); }
+  td,th { padding:14px 16px; border-bottom:1px solid rgba(255,255,255,.08); vertical-align:top; }
+  td { color:rgba(247,241,223,.78); font-size:14px; }
+  .callout { border-left:4px solid #D7A84F; background:rgba(215,168,79,.08); border-radius:var(--radius-row); padding:16px 18px; margin:18px 0; }
+  .quiz-shell,.flash-shell { padding:20px; }
+  .quiz-toolbar,.flash-toolbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:18px; }
+  select,input[type="search"] { background:#11100F; color:var(--ink); border:1px solid rgba(247,241,223,.15); border-radius:var(--radius-pill); padding:10px 12px; font-family:var(--mono); font-size:12px; }
+  .question-card { background:rgba(0,0,0,.18); border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:18px; }
+  .question-meta { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+  .options { display:grid; gap:9px; margin-top:16px; }
+  .option { text-align:left; width:100%; border-radius:12px; background:rgba(255,255,255,.05); color:var(--ink); border:1px solid rgba(255,255,255,.12); padding:13px 14px; font-family:var(--sans); font-size:14px; }
+  .option.correct { background:rgba(120,140,93,.24); border-color:rgba(120,140,93,.7); }
+  .option.wrong { background:rgba(176,74,63,.2); border-color:rgba(176,74,63,.7); }
+  .explain { margin-top:14px; padding:12px 14px; border-radius:12px; background:rgba(215,168,79,.08); border:1px solid rgba(215,168,79,.18); color:rgba(247,241,223,.82); display:none; }
+  .score-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-top:14px; }
+  .score-card { border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:10px; background:rgba(0,0,0,.14); }
+  .score-card b { display:block; color:#F3D17D; font-family:var(--serif); font-size:22px; }
+  .flashcard { min-height:220px; display:grid; place-items:center; text-align:center; padding:28px; border-radius:16px; background:linear-gradient(135deg,rgba(215,168,79,.12),rgba(217,119,87,.08)); border:1px solid rgba(215,168,79,.2); cursor:pointer; }
+  .flashcard strong { display:block; font-family:var(--serif); font-size:34px; color:#FFF2C5; }
+  .flashcard p { margin-top:12px; font-size:18px; color:rgba(247,241,223,.82); }
+  .plan { display:grid; gap:10px; }
+  .plan-row { display:grid; grid-template-columns:92px 1fr; gap:12px; align-items:start; padding:13px; border-radius:12px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); }
+  .plan-row span { font-family:var(--mono); color:#F3D17D; }
+  .checklist { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+  .check-item { display:flex; gap:10px; padding:12px; border-radius:12px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); color:rgba(247,241,223,.82); }
+  .check-item input { accent-color:#D7A84F; transform:translateY(3px); }
+  .lab { padding:18px; }
+  .lab h3 { color:#FFF2C5; margin:12px 0 10px; }
+  .glossary { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+  .glossary-item { padding:16px; border-radius:14px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.045); }
+  .glossary-item h3 { color:#F3D17D; font-size:19px; margin-bottom:6px; }
+  .footer { margin-top:60px; padding-top:24px; border-top:var(--dark-border); color:rgba(247,241,223,.55); font-family:var(--mono); font-size:12px; }
+  .hidden { display:none !important; }
+  @media (max-width:980px) { .stats,.grid-3,.score-grid { grid-template-columns:repeat(2,1fr); } .grid-2,.glossary,.checklist { grid-template-columns:1fr; } }
+  @media (max-width:620px) { .wrap { padding:28px 16px 70px; } .stats,.grid-3,.score-grid { grid-template-columns:1fr; } .plan-row { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner"><span class="brand">GH-600 / Agentic AI Developer</span><a href="#domains">Domains</a><a href="#quiz">Practice</a><a href="#flashcards">Flashcards</a><a href="#labs">Labs</a><a href="#plan">2-week plan</a><a href="#glossary">Glossary</a></div></nav>
+<main class="wrap">
+  <header class="hero">
+    <p class="eyebrow">GitHub Certified · Agentic AI Developer · GH-600</p>
+    <h1>Study the agent exam like an operator, not a prompt bro.</h1>
+    <p class="lead">A self-contained practice site for Wesley: domain map, original practice questions, mock exam mode, flashcards, labs, score tracking, and a two-week plan based on the public Microsoft/GitHub GH-600 study guide.</p>
+    <div class="hero-actions"><a class="btn btn-primary" href="#quiz">Start practice</a><a class="btn btn-ghost" href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/gh-600" target="_blank" rel="noreferrer">Official study guide ↗</a><button class="ghost" id="resetAll">Reset local progress</button></div>
+    <div class="stats">
+      <div class="stat"><span class="eyebrow">Domains</span><strong>6</strong><p>Architecture, tools, memory, evals, multi-agent, guardrails.</p></div>
+      <div class="stat"><span class="eyebrow">Largest domain</span><strong>25%</strong><p>Tool use, MCP, environment interaction.</p></div>
+      <div class="stat"><span class="eyebrow">Question bank</span><strong>36</strong><p>Original questions, no dumps or leaked content.</p></div>
+      <div class="stat"><span class="eyebrow">Plan</span><strong>14d</strong><p>Practical labs plus spaced review.</p></div>
+    </div>
+    <div class="callout"><strong>Honest strategy.</strong> Your real-world agent instincts are good. The pass/fail gap is GitHub/Copilot/MCP vocabulary and exam-style governance wording.</div>
+  </header>
+
+  <section id="domains">
+    <div class="section-head"><div><p class="eyebrow">Exam map</p><h2>Six domains, weighted by risk and control.</h2></div><p>Use this as the top-level map. Domain 2 deserves the most study time because it is the most GitHub-specific.</p></div>
+    <div class="grid-3">
+          <article class="domain-card" data-domain="architecture">
+            <div class="domain-top"><span class="domain-num">01</span><span class="weight">15–20%</span></div>
+            <h3>Prepare agent architecture &amp; SDLC processes</h3>
+            <p>Fit agents into GitHub-driven SDLC without turning planning into unchecked action.</p>
+            <details><summary>Skills measured</summary><ul><li>Identify agent-performed SDLC steps</li><li>Mitigate agent anti-patterns</li><li>Define inputs, outputs, success criteria</li><li>Separate planning, reasoning, and action</li><li>Require plan checks before action</li><li>Produce inspectable artifacts</li></ul></details>
+          </article>
+
+          <article class="domain-card" data-domain="tools">
+            <div class="domain-top"><span class="domain-num">02</span><span class="weight">20–25%</span></div>
+            <h3>Implement tool use &amp; environment interaction</h3>
+            <p>Choose, scope, and operate tools/MCP/dev environments safely.</p>
+            <details><summary>Skills measured</summary><ul><li>Identify required tools</li><li>Configure tool permissions</li><li>Add MCP servers</li><li>Configure MCP registries and allow lists</li><li>Scope agents to repos/branches</li><li>Invoke agents from CI</li><li>Handle retries, rollbacks, escalation, traceability</li></ul></details>
+          </article>
+
+          <article class="domain-card" data-domain="memory">
+            <div class="domain-top"><span class="domain-num">03</span><span class="weight">10–15%</span></div>
+            <h3>Manage memory, state &amp; execution</h3>
+            <p>Keep durable state without letting stale context or drift corrupt work.</p>
+            <details><summary>Skills measured</summary><ul><li>Choose memory strategy</li><li>Scope memory to relevant info</li><li>Define expiration/pruning/reset</li><li>Capture progress and decisions</li><li>Resume without repeating/diverging</li><li>Prevent stale/conflicting context</li></ul></details>
+          </article>
+
+          <article class="domain-card" data-domain="evaluation">
+            <div class="domain-top"><span class="domain-num">04</span><span class="weight">15–20%</span></div>
+            <h3>Perform evaluation, error analysis &amp; tuning</h3>
+            <p>Judge agent outputs with signals, traces, scans, logs, and artifacts.</p>
+            <details><summary>Skills measured</summary><ul><li>Define success criteria</li><li>Identify qualitative/quantitative signals</li><li>Use automated scanning tools</li><li>Analyze logs/plans/traces/artifacts</li><li>Classify reasoning/tool/context/environment failures</li><li>Tune instructions, workflows, memory, and tool access</li></ul></details>
+          </article>
+
+          <article class="domain-card" data-domain="multiagent">
+            <div class="domain-top"><span class="domain-num">05</span><span class="weight">15–20%</span></div>
+            <h3>Orchestrate multi-agent coordination</h3>
+            <p>Coordinate multiple agents without conflicts, duplicated work, or lost auditability.</p>
+            <details><summary>Skills measured</summary><ul><li>Apply orchestration patterns</li><li>Configure isolated parallel execution</li><li>Resolve overlapping changes/duplicated effort/contradictory outputs</li><li>Produce review/audit artifacts</li><li>Recover stalled/degraded agents</li><li>Add/update/replace/retire agents cleanly</li></ul></details>
+          </article>
+
+          <article class="domain-card" data-domain="guardrails">
+            <div class="domain-top"><span class="domain-num">06</span><span class="weight">10–15%</span></div>
+            <h3>Implement guardrails &amp; accountability</h3>
+            <p>Right-size autonomy and approvals by risk, compliance, and irreversibility.</p>
+            <details><summary>Skills measured</summary><ul><li>Classify actions by risk</li><li>Assign autonomy levels</li><li>Identify actions requiring human judgment</li><li>Block policy violations</li><li>Enforce least-privilege execution</li><li>Require explicit authorization for irreversible/compliance-sensitive actions</li></ul></details>
+          </article>
+    </div>
+  </section>
+
+  <section id="readiness">
+    <div class="section-head"><div><p class="eyebrow">Wesley-specific</p><h2>What you already know vs what to study.</h2></div><p>This is the translation layer: Hermes/operator instincts → GitHub certification language.</p></div>
+    <div class="table-card"><table><thead><tr><th>Domain</th><th>Already strong</th><th>Focused study</th></tr></thead><tbody>
+            <tr><td><span class="pill">01</span> Prepare agent architecture &amp; SDLC processes</td><td>You already separate future-state vision from MVP, define source truth, approval gates, and inspectable outputs.</td><td>GitHub-specific wording: custom agents, Copilot setup steps, PR/branch workflow controls, and structured plan validation.</td></tr>
+
+            <tr><td><span class="pill">02</span> Implement tool use &amp; environment interaction</td><td>You already think in allowed tools, source-backed actions, least-privilege, and safe retries/escalations.</td><td>This is the biggest GitHub-specific gap: Copilot custom agents, GitHub remote MCP server, registries, allow lists, CI invocation, and branch-based scope.</td></tr>
+
+            <tr><td><span class="pill">03</span> Manage memory, state &amp; execution</td><td>This maps almost directly to your files/database remember work principle and handoff/source-truth instincts.</td><td>Use official labels: short-term, long-term, external memory; expiration, pruning, reset rules; context drift; stale/conflicting context.</td></tr>
+
+            <tr><td><span class="pill">04</span> Perform evaluation, error analysis &amp; tuning</td><td>You already prefer evidence-backed evals and fail-closed behavior over keyword scripts/counts.</td><td>Translate that into GitHub terms: scans, workflow artifacts, traces, operational signals, root-cause classification, and tuning instructions/tools/memory.</td></tr>
+
+            <tr><td><span class="pill">05</span> Orchestrate multi-agent coordination</td><td>You use subagents, worker boundaries, review packets, and handoffs already.</td><td>GitHub exam language around isolation for parallel execution, conflict resolution for overlapping code changes, post-hoc analysis, lifecycle replacement/retirement.</td></tr>
+
+            <tr><td><span class="pill">06</span> Implement guardrails &amp; accountability</td><td>This is your natural lane: human approval, explicit scope, no guessing, no unsafe live writes.</td><td>Use official governance language: Responsible AI, least privilege, compliance-sensitive changes, velocity-preserving approvals.</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section id="quiz">
+    <div class="section-head"><div><p class="eyebrow">Practice engine</p><h2>Quiz mode + mock exam mode.</h2></div><p>Answers are saved locally in your browser. Nothing leaves the page.</p></div>
+    <div class="quiz-shell">
+      <div class="quiz-toolbar">
+        <select id="domainFilter"><option value="all">All domains</option></select>
+        <button class="primary" id="nextQuestion">Next question</button>
+        <button class="ghost" id="mockExam">Start 24-question mock exam</button>
+        <button class="ghost" id="reviewMisses">Review missed</button>
+        <span class="badge" id="quizMode">Practice mode</span>
+      </div>
+      <div id="questionMount" class="question-card"><p>Loading practice question…</p></div>
+      <div id="scoreMount" class="score-grid"></div>
+    </div>
+  </section>
+
+  <section id="flashcards">
+    <div class="section-head"><div><p class="eyebrow">Memory reps</p><h2>Flashcards for official terms.</h2></div><p>Click the card to flip. These focus on the words the exam will likely use.</p></div>
+    <div class="flash-shell">
+      <div class="flash-toolbar"><button class="primary" id="prevCard">Previous</button><button class="primary" id="nextCard">Next</button><button class="ghost" id="shuffleCards">Shuffle</button><span class="badge" id="flashCount"></span></div>
+      <div class="flashcard" id="flashcard"><strong>Loading…</strong></div>
+    </div>
+  </section>
+
+  <section id="checklist">
+    <div class="section-head"><div><p class="eyebrow">Readiness checklist</p><h2>Pass-ready checklist.</h2></div><p>Check these off only when you can explain each item out loud without notes.</p></div>
+    <div class="checklist">
+          <label class="check-item" data-domain="architecture"><input type="checkbox" data-check="0"><span>Know the six domains and weights</span></label>
+
+          <label class="check-item" data-domain="architecture"><input type="checkbox" data-check="1"><span>Explain planning vs execution boundaries</span></label>
+
+          <label class="check-item" data-domain="tools"><input type="checkbox" data-check="2"><span>Configure repo/branch-scoped agent access</span></label>
+
+          <label class="check-item" data-domain="tools"><input type="checkbox" data-check="3"><span>Explain GitHub remote MCP server + registries + allow lists</span></label>
+
+          <label class="check-item" data-domain="memory"><input type="checkbox" data-check="4"><span>Pick short-term vs long-term vs external memory</span></label>
+
+          <label class="check-item" data-domain="memory"><input type="checkbox" data-check="5"><span>Define memory expiration/pruning/reset rules</span></label>
+
+          <label class="check-item" data-domain="evaluation"><input type="checkbox" data-check="6"><span>Build an evaluation rubric with qualitative + quantitative signals</span></label>
+
+          <label class="check-item" data-domain="evaluation"><input type="checkbox" data-check="7"><span>Classify failures as reasoning/tool/context/environment</span></label>
+
+          <label class="check-item" data-domain="multiagent"><input type="checkbox" data-check="8"><span>Design isolated parallel workers and conflict resolution</span></label>
+
+          <label class="check-item" data-domain="multiagent"><input type="checkbox" data-check="9"><span>Document multi-agent handoffs and post-hoc analysis</span></label>
+
+          <label class="check-item" data-domain="guardrails"><input type="checkbox" data-check="10"><span>Create autonomy levels by risk</span></label>
+
+          <label class="check-item" data-domain="guardrails"><input type="checkbox" data-check="11"><span>Map irreversible/compliance-sensitive actions to approvals</span></label>
+    </div>
+  </section>
+
+  <section id="labs">
+    <div class="section-head"><div><p class="eyebrow">Hands-on labs</p><h2>Build what the test describes.</h2></div><p>These are not required by the exam vendor. They are how you turn abstract guide bullets into muscle memory.</p></div>
+    <div class="grid-2">
+          <article class="lab card" data-domain="architecture">
+            <span class="badge">35 min</span>
+            <h3>Lab 1 — Agent plan gate</h3>
+            <p><strong>Goal:</strong> Create a repo issue template where an agent must output inputs, plan, files touched, approval needed, and success criteria before changing code.</p>
+            <p><strong>Proof:</strong> A PR or markdown artifact showing the plan gate and a rejected unsafe plan example.</p>
+          </article>
+
+          <article class="lab card" data-domain="tools">
+            <span class="badge">45 min</span>
+            <h3>Lab 2 — MCP allow-list sketch</h3>
+            <p><strong>Goal:</strong> Draft an MCP config that exposes only issue/search/read-only repo tools to a research agent, then separately allows branch/PR tools to a coding agent.</p>
+            <p><strong>Proof:</strong> Two tool-permission matrices and a note explaining why each permission exists.</p>
+          </article>
+
+          <article class="lab card" data-domain="tools">
+            <span class="badge">50 min</span>
+            <h3>Lab 3 — CI agent invocation</h3>
+            <p><strong>Goal:</strong> Design a GitHub Actions workflow that runs an agent/evaluator on pull requests and uploads logs/artifacts.</p>
+            <p><strong>Proof:</strong> Workflow YAML plus sample artifact names and failure/escalation behavior.</p>
+          </article>
+
+          <article class="lab card" data-domain="evaluation">
+            <span class="badge">40 min</span>
+            <h3>Lab 4 — Eval rubric</h3>
+            <p><strong>Goal:</strong> Write an evaluation rubric for an agent that edits a workflow file: expected output, scans/tests, qualitative review, and root-cause buckets.</p>
+            <p><strong>Proof:</strong> A scorecard with pass/fail criteria and examples of reasoning/tool/context/environment failures.</p>
+          </article>
+
+          <article class="lab card" data-domain="multiagent">
+            <span class="badge">45 min</span>
+            <h3>Lab 5 — Multi-agent conflict drill</h3>
+            <p><strong>Goal:</strong> Simulate two workers editing overlapping files. Define isolation, handoff, conflict detection, and resolution steps.</p>
+            <p><strong>Proof:</strong> A post-hoc analysis artifact showing decisions, conflicts, and final accepted path.</p>
+          </article>
+
+          <article class="lab card" data-domain="guardrails">
+            <span class="badge">30 min</span>
+            <h3>Lab 6 — Autonomy matrix</h3>
+            <p><strong>Goal:</strong> Classify actions into auto, notify, approval, and blocked categories for a client-facing agent workflow.</p>
+            <p><strong>Proof:</strong> A risk matrix with examples of irreversible/compliance-sensitive actions and approval rules.</p>
+          </article>
+    </div>
+  </section>
+
+  <section id="plan">
+    <div class="section-head"><div><p class="eyebrow">Two-week sprint</p><h2>Study plan: learn the GitHub words for what you already do.</h2></div><p>Do not sit cold. Take the mock, study misses, build labs, then schedule when scores stabilize.</p></div>
+    <div class="plan">
+          <div class="plan-row"><span>Day 1</span><p>Read the official study guide twice. Build your domain cheat sheet from memory.</p></div>
+
+          <div class="plan-row"><span>Day 2</span><p>Domain 2 deep dive: tool permissions, MCP server, registries, allow lists, repo/branch scope.</p></div>
+
+          <div class="plan-row"><span>Day 3</span><p>Build Lab 2. Write a one-page MCP permission matrix.</p></div>
+
+          <div class="plan-row"><span>Day 4</span><p>Domain 1: planning/execution boundary, structured plan, inspectable artifacts.</p></div>
+
+          <div class="plan-row"><span>Day 5</span><p>Build Lab 1. Practice explaining plan gates in plain English.</p></div>
+
+          <div class="plan-row"><span>Day 6</span><p>Domain 4: eval signals, scans, traces, artifacts, root-cause classes.</p></div>
+
+          <div class="plan-row"><span>Day 7</span><p>Mock exam #1. Review every miss and update flashcards.</p></div>
+
+          <div class="plan-row"><span>Day 8</span><p>Domain 5: multi-agent orchestration, isolation, handoffs, conflict recovery.</p></div>
+
+          <div class="plan-row"><span>Day 9</span><p>Build Lab 5. Practice conflict/rollback language.</p></div>
+
+          <div class="plan-row"><span>Day 10</span><p>Domain 3: memory strategies, pruning, reset, stale/conflicting context.</p></div>
+
+          <div class="plan-row"><span>Day 11</span><p>Domain 6: autonomy levels, least privilege, human-in-the-loop, Responsible AI.</p></div>
+
+          <div class="plan-row"><span>Day 12</span><p>Build Lab 6. Create your Clawdified-style autonomy matrix.</p></div>
+
+          <div class="plan-row"><span>Day 13</span><p>Mock exam #2. Re-study domains under 80%.</p></div>
+
+          <div class="plan-row"><span>Day 14</span><p>Final review: glossary, flashcards, labs, and official docs links. Schedule when scores stabilize.</p></div>
+    </div>
+  </section>
+
+  <section id="glossary">
+    <div class="section-head"><div><p class="eyebrow">Glossary</p><h2>GitHub / Copilot / agentic AI terms.</h2></div><input id="glossarySearch" type="search" placeholder="Filter glossary…"></div>
+    <div class="glossary" id="glossaryMount">
+          <div class="glossary-item"><h3>Agent architecture</h3><p>The design of agent responsibilities, inputs, outputs, tools, memory, autonomy, and review gates.</p></div>
+
+          <div class="glossary-item"><h3>Branch-based scope</h3><p>Restricting an agent’s code changes to a specific branch so work stays reviewable and isolated.</p></div>
+
+          <div class="glossary-item"><h3>Copilot custom agent</h3><p>A GitHub/Copilot agent customized with instructions, setup, tools, and scoped behavior.</p></div>
+
+          <div class="glossary-item"><h3>Copilot setup steps</h3><p>Configuration that prepares an agent environment before it works, such as dependencies or repo-specific setup.</p></div>
+
+          <div class="glossary-item"><h3>GitHub control plane</h3><p>Using GitHub issues, branches, PRs, Actions, checks, and artifacts as the system of record for agent work.</p></div>
+
+          <div class="glossary-item"><h3>Operational signal</h3><p>Evidence from execution that shows health or failure: logs, exit codes, artifacts, scans, status checks.</p></div>
+
+          <div class="glossary-item"><h3>Responsible AI guardrail</h3><p>A policy or control that prevents unsafe, non-compliant, or unaccountable agent behavior.</p></div>
+
+          <div class="glossary-item"><h3>Traceability</h3><p>The ability to reconstruct who/what acted, why, with which tools, and what changed.</p></div>
+    </div>
+  </section>
+
+  <div class="footer">Built from the public GH-600 study guide. This site contains original study material only — no exam dumps, leaked questions, or proprietary test content.</div>
+</main>
+<script>
+const DATA = {"domains": [{"id": "architecture", "num": "01", "title": "Prepare agent architecture & SDLC processes", "weight": "15–20%", "focus": "Fit agents into GitHub-driven SDLC without turning planning into unchecked action.", "knows": "You already separate future-state vision from MVP, define source truth, approval gates, and inspectable outputs.", "study": "GitHub-specific wording: custom agents, Copilot setup steps, PR/branch workflow controls, and structured plan validation.", "skills": ["Identify agent-performed SDLC steps", "Mitigate agent anti-patterns", "Define inputs, outputs, success criteria", "Separate planning, reasoning, and action", "Require plan checks before action", "Produce inspectable artifacts"]}, {"id": "tools", "num": "02", "title": "Implement tool use & environment interaction", "weight": "20–25%", "focus": "Choose, scope, and operate tools/MCP/dev environments safely.", "knows": "You already think in allowed tools, source-backed actions, least-privilege, and safe retries/escalations.", "study": "This is the biggest GitHub-specific gap: Copilot custom agents, GitHub remote MCP server, registries, allow lists, CI invocation, and branch-based scope.", "skills": ["Identify required tools", "Configure tool permissions", "Add MCP servers", "Configure MCP registries and allow lists", "Scope agents to repos/branches", "Invoke agents from CI", "Handle retries, rollbacks, escalation, traceability"]}, {"id": "memory", "num": "03", "title": "Manage memory, state & execution", "weight": "10–15%", "focus": "Keep durable state without letting stale context or drift corrupt work.", "knows": "This maps almost directly to your files/database remember work principle and handoff/source-truth instincts.", "study": "Use official labels: short-term, long-term, external memory; expiration, pruning, reset rules; context drift; stale/conflicting context.", "skills": ["Choose memory strategy", "Scope memory to relevant info", "Define expiration/pruning/reset", "Capture progress and decisions", "Resume without repeating/diverging", "Prevent stale/conflicting context"]}, {"id": "evaluation", "num": "04", "title": "Perform evaluation, error analysis & tuning", "weight": "15–20%", "focus": "Judge agent outputs with signals, traces, scans, logs, and artifacts.", "knows": "You already prefer evidence-backed evals and fail-closed behavior over keyword scripts/counts.", "study": "Translate that into GitHub terms: scans, workflow artifacts, traces, operational signals, root-cause classification, and tuning instructions/tools/memory.", "skills": ["Define success criteria", "Identify qualitative/quantitative signals", "Use automated scanning tools", "Analyze logs/plans/traces/artifacts", "Classify reasoning/tool/context/environment failures", "Tune instructions, workflows, memory, and tool access"]}, {"id": "multiagent", "num": "05", "title": "Orchestrate multi-agent coordination", "weight": "15–20%", "focus": "Coordinate multiple agents without conflicts, duplicated work, or lost auditability.", "knows": "You use subagents, worker boundaries, review packets, and handoffs already.", "study": "GitHub exam language around isolation for parallel execution, conflict resolution for overlapping code changes, post-hoc analysis, lifecycle replacement/retirement.", "skills": ["Apply orchestration patterns", "Configure isolated parallel execution", "Resolve overlapping changes/duplicated effort/contradictory outputs", "Produce review/audit artifacts", "Recover stalled/degraded agents", "Add/update/replace/retire agents cleanly"]}, {"id": "guardrails", "num": "06", "title": "Implement guardrails & accountability", "weight": "10–15%", "focus": "Right-size autonomy and approvals by risk, compliance, and irreversibility.", "knows": "This is your natural lane: human approval, explicit scope, no guessing, no unsafe live writes.", "study": "Use official governance language: Responsible AI, least privilege, compliance-sensitive changes, velocity-preserving approvals.", "skills": ["Classify actions by risk", "Assign autonomy levels", "Identify actions requiring human judgment", "Block policy violations", "Enforce least-privilege execution", "Require explicit authorization for irreversible/compliance-sensitive actions"]}], "questions": [{"domain": "architecture", "q": "A custom coding agent proposes a multi-file refactor and immediately opens a PR without showing its intended steps. What control best matches the GH-600 guidance?", "options": ["Let it continue because PRs are reversible", "Require the agent to output a structured plan and validate it before action", "Disable all autonomous branch creation", "Move the work to long-term memory first"], "answer": 1, "why": "The guide emphasizes distinct planning/execution, structured plans, plan validation, and preventing action until checked/approved."}, {"domain": "architecture", "q": "Which is the clearest success criterion for an agent asked to update a GitHub Action?", "options": ["Make CI better", "Update .github/workflows/test.yml so unit tests run on PRs and attach the workflow run URL as evidence", "Use best practices", "Make sure the repo looks professional"], "answer": 1, "why": "Success criteria should define artifact, behavior, and inspectable evidence inside standard development tooling."}, {"domain": "architecture", "q": "An agent is allowed to plan database migrations but not apply them. Which boundary is being enforced?", "options": ["Planning vs action", "Short-term vs external memory", "MCP registry vs MCP server", "Qualitative vs quantitative evaluation"], "answer": 0, "why": "The agent may reason and plan, but execution of a risky action is blocked pending approval."}, {"domain": "architecture", "q": "What is an agent anti-pattern in SDLC work?", "options": ["Producing logs and artifacts", "Creating branches for isolated work", "Taking irreversible actions before review because it is confident", "Defining inputs and outputs up front"], "answer": 2, "why": "Unchecked autonomous action without review is a central anti-pattern the exam expects you to mitigate."}, {"domain": "architecture", "q": "A team wants faster delivery but still needs control. What is the best design?", "options": ["Require human approval for every tool call", "Let the agent self-approve low-risk and high-risk work", "Use autonomy levels so low-risk actions proceed and high-risk actions require approval", "Disable all tools and ask the agent to write instructions only"], "answer": 2, "why": "The study guide says to configure autonomy and human intervention without unnecessarily slowing delivery."}, {"domain": "architecture", "q": "Where should an agent leave proof that it completed a task in a GitHub-driven SDLC?", "options": ["Only in model memory", "In inspectable artifacts such as PR body, logs, workflow outputs, or linked evidence", "Only in private chat", "Nowhere if tests pass"], "answer": 1, "why": "Inspectable artifacts in standard development tooling are core to observability and accountability."}, {"domain": "tools", "q": "A repo-level agent needs access to an issue tracker through MCP but should not access unrelated tools. What configuration matters most?", "options": ["Increasing model temperature", "Adding the MCP server and configuring tool permissions/allow lists", "Saving more chat history", "Using a larger monitor"], "answer": 1, "why": "Tool selection, MCP server setup, permissions, registries, and allow lists are central to this domain."}, {"domain": "tools", "q": "What is the safest execution scope for an autonomous code-change agent?", "options": ["Entire GitHub organization by default", "Specific repository and branch-based scope with least privilege", "Personal laptop filesystem with all permissions", "Production environment first"], "answer": 1, "why": "The guide calls out repo scope, branch-based scope, tool permissions, and safe execution paths."}, {"domain": "tools", "q": "An agent fails because a CI container lacks a required CLI. Which category is the root issue?", "options": ["Environment-specific constraint", "Long-term memory error", "Human-in-the-loop failure", "Glossary mismatch"], "answer": 0, "why": "The execution context and environment constraints must be evaluated and handled."}, {"domain": "tools", "q": "What should an agent do when a safe tool call fails transiently?", "options": ["Retry forever", "Implement bounded retries, report failure if exhausted, and escalate when needed", "Delete the branch", "Ignore the failure and claim success"], "answer": 1, "why": "The guide specifically mentions robust error handling, retries, escalation paths, and traceability."}, {"domain": "tools", "q": "An MCP registry lets the team discover available tools. What additional control prevents overbroad access?", "options": ["Allow lists and permission scoping", "More flashcards", "A public README only", "A longer prompt"], "answer": 0, "why": "The official guide explicitly lists MCP registries and MCP allow lists."}, {"domain": "tools", "q": "Why invoke an agent from a CI workflow?", "options": ["To hide its actions from reviewers", "To run it in a repeatable development environment with artifacts and controls", "To skip branch protection", "To avoid logs"], "answer": 1, "why": "CI workflow invocation gives controlled execution context, repeatability, logs, and artifacts."}, {"domain": "memory", "q": "A long-running agent keeps redoing completed steps after every restart. What should be added?", "options": ["Durable task-progress artifacts and resumable state", "More random examples", "A second unrelated MCP server", "A shorter branch name"], "answer": 0, "why": "The guide emphasizes capturing task progress and decisions so work resumes without repeating or diverging."}, {"domain": "memory", "q": "When should long-term memory be pruned or reset?", "options": ["Never", "When it becomes stale, irrelevant, conflicting, or outside the task scope", "Every five minutes regardless of task", "Only after the repo is deleted"], "answer": 1, "why": "Memory needs expiration, pruning, and reset rules to prevent stale/conflicting context."}, {"domain": "memory", "q": "Which memory strategy is best for canonical product requirements?", "options": ["Short-term chat context only", "External durable memory such as repository docs or database-backed state", "The agent's vibes", "A screenshot of the terminal"], "answer": 1, "why": "External durable memory is best for persistent source truth and cross-tool continuity."}, {"domain": "memory", "q": "What is context drift?", "options": ["The agent gradually diverges from prior decisions or current task constraints", "A monitor changes color temperature", "GitHub renames a repo", "A flashcard is too easy"], "answer": 0, "why": "Extended execution can drift from original constraints; the agent must detect and correct it."}, {"domain": "memory", "q": "Two tools provide conflicting instructions about deployment. What should the agent do?", "options": ["Pick the newest-looking one without checking", "Detect conflicting context, use source-of-truth rules, and ask/escalate if unresolved", "Use both at once", "Ignore both and deploy"], "answer": 1, "why": "The guide requires preventing conflicting context and preserving correct state across tools/environments."}, {"domain": "memory", "q": "What should be stored in task-scoped memory?", "options": ["Only information relevant to completing/resuming the task", "Every unrelated preference ever mentioned", "All raw logs forever", "Secrets copied into prompts"], "answer": 0, "why": "The exam expects memory to be scoped to task-relevant information with pruning/reset rules."}, {"domain": "evaluation", "q": "An agent says it fixed a vulnerability. What is the best evaluation signal?", "options": ["The response sounds confident", "A security scan, test result, diff, and PR evidence show the issue is fixed", "The branch name includes fix", "The agent used a large model"], "answer": 1, "why": "Evaluation should use automated scans, artifacts, logs, and outputs aligned to the intended change."}, {"domain": "evaluation", "q": "A failure came from calling the wrong GitHub API endpoint. How should you classify it?", "options": ["Tool misuse", "Reasoning-only error", "User interface styling issue", "Memory pruning success"], "answer": 0, "why": "The guide lists root causes including reasoning errors, tool misuse, and context/environment issues."}, {"domain": "evaluation", "q": "What is the best tuning response after repeated overbroad file edits?", "options": ["Give the agent more repository access", "Refine instructions, tool access, and workflow constraints to narrow edit scope", "Remove all tests", "Store more stale context"], "answer": 1, "why": "Tuning should revise instructions, workflows, constraints, memory usage, and tool access based on failures."}, {"domain": "evaluation", "q": "Which pair gives both qualitative and quantitative signals?", "options": ["Reviewer rubric plus test/scan pass rate", "Repo name plus star count", "Agent personality plus font size", "Calendar date plus branch color"], "answer": 0, "why": "The guide expects qualitative and quantitative evaluation signals aligned to development intent."}, {"domain": "evaluation", "q": "Where should you look to debug a stalled agent run?", "options": ["Only the final chat message", "Logs, plans, traces, outputs, and workflow artifacts", "A random tutorial", "The browser theme"], "answer": 1, "why": "The study guide explicitly names logs, plans, traces, outputs, and workflow artifacts for failure analysis."}, {"domain": "evaluation", "q": "What does 'align evaluation criteria with development intent' mean?", "options": ["Score the agent on what the task actually required, not generic metrics", "Always use the same scorecard for every task", "Only count lines of code", "Avoid acceptance criteria"], "answer": 0, "why": "Evaluation must match expected outcomes and operational constraints for the actual task."}, {"domain": "multiagent", "q": "Two agents edit the same file in parallel and produce incompatible changes. What failure type is this?", "options": ["Overlapping code-change conflict", "Flashcard collision", "MCP registry success", "Memory expiration"], "answer": 0, "why": "The guide calls out overlapping code changes and contradictory outputs as multi-agent conflicts."}, {"domain": "multiagent", "q": "How do you reduce conflict risk in parallel agent execution?", "options": ["Give every agent the same branch and vague scope", "Use isolation, clear ownership boundaries, and reviewable handoffs", "Disable logs", "Merge automatically"], "answer": 1, "why": "Agent isolation, boundaries, artifacts, and handoffs make coordination safe."}, {"domain": "multiagent", "q": "What artifact is most useful after a multi-agent workflow finishes?", "options": ["A documented handoff with key decisions, outputs, and evidence", "A single emoji", "A hidden terminal scrollback", "Nothing if it worked"], "answer": 0, "why": "The guide emphasizes artifacts suitable for review/audit and documenting key decisions, handoffs, and outcomes."}, {"domain": "multiagent", "q": "An agent is obsolete but its past decisions matter. What is the right lifecycle action?", "options": ["Delete all traces", "Retire it while preserving auditability and workflow continuity", "Let it keep running forever", "Copy secrets into its prompt"], "answer": 1, "why": "Retiring agents while preserving auditability and continuity is explicitly in the guide."}, {"domain": "multiagent", "q": "A workflow has one orchestrator and several focused workers. What pattern is this?", "options": ["Multi-agent orchestration", "Single-agent memory pruning", "Exam sandboxing", "Theme switching"], "answer": 0, "why": "Coordinating multiple specialized agents through a workflow is an orchestration pattern."}, {"domain": "multiagent", "q": "What should happen when one worker stalls?", "options": ["Ignore it and tell the user all agents passed", "Detect partial/stalled execution and apply recovery, rollback, or human-in-the-loop escalation", "Merge whatever exists", "Start deleting files"], "answer": 1, "why": "The guide covers failed, partial, stalled, degraded multi-agent executions and recovery patterns."}, {"domain": "guardrails", "q": "Which action should require explicit authorization?", "options": ["Reading README.md", "Creating a local branch", "Deleting production data or making irreversible compliance-sensitive changes", "Formatting a markdown table"], "answer": 2, "why": "Irreversible and compliance-sensitive changes need controlled paths or explicit authorization."}, {"domain": "guardrails", "q": "What is least privilege for an agent?", "options": ["Give it only the permissions and execution context needed for the task", "Give it admin everywhere so it does not get blocked", "Let it create arbitrary tokens", "Disable branch protection"], "answer": 0, "why": "The guide calls out scoping permissions and execution contexts to enforce least privilege."}, {"domain": "guardrails", "q": "A low-risk formatting agent asks for approval on every line change, slowing delivery. What should be adjusted?", "options": ["Autonomy level and approval rules", "Government ID", "Study guide URL", "Screen brightness"], "answer": 0, "why": "Approvals should materially reduce risk; unnecessary approvals slow delivery."}, {"domain": "guardrails", "q": "Which is a human-in-the-loop workflow?", "options": ["Agent drafts a PR, human reviews and approves before merge", "Agent commits directly to production", "Agent hides its logs", "Agent ignores policy checks"], "answer": 0, "why": "Human judgment gates higher-risk actions while preserving automated drafting/execution."}, {"domain": "guardrails", "q": "What should an agent do with a request that violates defined security policy?", "options": ["Block it and report why", "Run it if the user sounds rushed", "Ask another agent to do it secretly", "Store the violation in long-term memory and continue"], "answer": 0, "why": "Guardrails must block actions violating security, compliance, or Responsible AI policies."}, {"domain": "guardrails", "q": "Why classify actions by operational/security/compliance risk?", "options": ["To right-size human intervention and autonomy", "To make the site prettier", "To avoid learning MCP", "To replace all tests"], "answer": 0, "why": "Risk classification drives autonomy levels and approval gates."}], "flashcards": [["Structured plan", "A visible plan the agent emits before execution so humans or policy checks can validate intent."], ["MCP server", "A Model Context Protocol server exposes tools/data to an agent through a standard interface."], ["MCP allow list", "A policy that restricts which MCP tools or servers an agent may use."], ["External memory", "Durable state outside the model context, such as repo docs, issues, artifacts, or a database."], ["Context drift", "When an extended agent run diverges from prior decisions, source truth, or current constraints."], ["Workflow artifact", "A reviewable output from CI/automation, such as logs, reports, scan results, or generated files."], ["Tool misuse", "A failure mode where the agent picks the wrong tool, calls it incorrectly, or exceeds intended permissions."], ["Multi-agent isolation", "Separating workers by branch, worktree, repo scope, task ownership, or environment to prevent conflicts."], ["Human-in-the-loop", "A workflow where humans approve, reject, or correct sensitive or judgment-heavy steps."], ["Least privilege", "Grant only the minimum permissions needed to complete the task."], ["Autonomy level", "A risk-based setting that determines what an agent may do alone vs what requires approval."], ["Rollback", "A controlled recovery path that reverses or abandons a failed agent action."]], "labs": [{"title": "Lab 1 — Agent plan gate", "domain": "architecture", "time": "35 min", "goal": "Create a repo issue template where an agent must output inputs, plan, files touched, approval needed, and success criteria before changing code.", "proof": "A PR or markdown artifact showing the plan gate and a rejected unsafe plan example."}, {"title": "Lab 2 — MCP allow-list sketch", "domain": "tools", "time": "45 min", "goal": "Draft an MCP config that exposes only issue/search/read-only repo tools to a research agent, then separately allows branch/PR tools to a coding agent.", "proof": "Two tool-permission matrices and a note explaining why each permission exists."}, {"title": "Lab 3 — CI agent invocation", "domain": "tools", "time": "50 min", "goal": "Design a GitHub Actions workflow that runs an agent/evaluator on pull requests and uploads logs/artifacts.", "proof": "Workflow YAML plus sample artifact names and failure/escalation behavior."}, {"title": "Lab 4 — Eval rubric", "domain": "evaluation", "time": "40 min", "goal": "Write an evaluation rubric for an agent that edits a workflow file: expected output, scans/tests, qualitative review, and root-cause buckets.", "proof": "A scorecard with pass/fail criteria and examples of reasoning/tool/context/environment failures."}, {"title": "Lab 5 — Multi-agent conflict drill", "domain": "multiagent", "time": "45 min", "goal": "Simulate two workers editing overlapping files. Define isolation, handoff, conflict detection, and resolution steps.", "proof": "A post-hoc analysis artifact showing decisions, conflicts, and final accepted path."}, {"title": "Lab 6 — Autonomy matrix", "domain": "guardrails", "time": "30 min", "goal": "Classify actions into auto, notify, approval, and blocked categories for a client-facing agent workflow.", "proof": "A risk matrix with examples of irreversible/compliance-sensitive actions and approval rules."}], "glossary": [["Agent architecture", "The design of agent responsibilities, inputs, outputs, tools, memory, autonomy, and review gates."], ["Branch-based scope", "Restricting an agent’s code changes to a specific branch so work stays reviewable and isolated."], ["Copilot custom agent", "A GitHub/Copilot agent customized with instructions, setup, tools, and scoped behavior."], ["Copilot setup steps", "Configuration that prepares an agent environment before it works, such as dependencies or repo-specific setup."], ["GitHub control plane", "Using GitHub issues, branches, PRs, Actions, checks, and artifacts as the system of record for agent work."], ["Operational signal", "Evidence from execution that shows health or failure: logs, exit codes, artifacts, scans, status checks."], ["Responsible AI guardrail", "A policy or control that prevents unsafe, non-compliant, or unaccountable agent behavior."], ["Traceability", "The ability to reconstruct who/what acted, why, with which tools, and what changed."]], "checklist": [["Know the six domains and weights", "architecture"], ["Explain planning vs execution boundaries", "architecture"], ["Configure repo/branch-scoped agent access", "tools"], ["Explain GitHub remote MCP server + registries + allow lists", "tools"], ["Pick short-term vs long-term vs external memory", "memory"], ["Define memory expiration/pruning/reset rules", "memory"], ["Build an evaluation rubric with qualitative + quantitative signals", "evaluation"], ["Classify failures as reasoning/tool/context/environment", "evaluation"], ["Design isolated parallel workers and conflict resolution", "multiagent"], ["Document multi-agent handoffs and post-hoc analysis", "multiagent"], ["Create autonomy levels by risk", "guardrails"], ["Map irreversible/compliance-sensitive actions to approvals", "guardrails"]], "studyPlan": [["Day 1", "Read the official study guide twice. Build your domain cheat sheet from memory."], ["Day 2", "Domain 2 deep dive: tool permissions, MCP server, registries, allow lists, repo/branch scope."], ["Day 3", "Build Lab 2. Write a one-page MCP permission matrix."], ["Day 4", "Domain 1: planning/execution boundary, structured plan, inspectable artifacts."], ["Day 5", "Build Lab 1. Practice explaining plan gates in plain English."], ["Day 6", "Domain 4: eval signals, scans, traces, artifacts, root-cause classes."], ["Day 7", "Mock exam #1. Review every miss and update flashcards."], ["Day 8", "Domain 5: multi-agent orchestration, isolation, handoffs, conflict recovery."], ["Day 9", "Build Lab 5. Practice conflict/rollback language."], ["Day 10", "Domain 3: memory strategies, pruning, reset, stale/conflicting context."], ["Day 11", "Domain 6: autonomy levels, least privilege, human-in-the-loop, Responsible AI."], ["Day 12", "Build Lab 6. Create your Clawdified-style autonomy matrix."], ["Day 13", "Mock exam #2. Re-study domains under 80%."], ["Day 14", "Final review: glossary, flashcards, labs, and official docs links. Schedule when scores stabilize."]]};
+const $ = (s, root=document) => root.querySelector(s);
+const $$ = (s, root=document) => Array.from(root.querySelectorAll(s));
+const storeKey = 'gh600-practice-progress-v1';
+const state = JSON.parse(localStorage.getItem(storeKey) || '{"answered":{},"missed":[],"checklist":{}}');
+function save() { localStorage.setItem(storeKey, JSON.stringify(state)); }
+function domainLabel(id) { return DATA.domains.find(d => d.id === id)?.title.replace(/&/g,'&') || id; }
+function shortDomain(id) { return DATA.domains.find(d => d.id === id)?.num || id; }
+function shuffle(arr) { return [...arr].sort(()=>Math.random()-.5); }
+let currentQuestions = DATA.questions;
+let currentIndex = Math.floor(Math.random()*DATA.questions.length);
+let mockQueue = null;
+
+function initFilters() {
+  const select = $('#domainFilter');
+  DATA.domains.forEach(d => { const opt = document.createElement('option'); opt.value=d.id; opt.textContent=`${d.num} · ${d.title}`; select.appendChild(opt); });
+  select.addEventListener('change', () => { mockQueue=null; $('#quizMode').textContent='Practice mode'; currentQuestions = select.value==='all' ? DATA.questions : DATA.questions.filter(q=>q.domain===select.value); currentIndex=0; renderQuestion(); });
+}
+function renderScores() {
+  const mount = $('#scoreMount');
+  mount.innerHTML = DATA.domains.map(d => {
+    const qs = DATA.questions.filter(q=>q.domain===d.id);
+    const answered = qs.filter(q => state.answered[DATA.questions.indexOf(q)]).length;
+    const correct = qs.filter(q => state.answered[DATA.questions.indexOf(q)]?.correct).length;
+    const pct = answered ? Math.round(correct/answered*100) : 0;
+    return `<div class="score-card"><span class="eyebrow">${d.num}</span><b>${pct}%</b><p>${correct}/${answered} answered</p></div>`;
+  }).join('');
+}
+function renderQuestion() {
+  if (!currentQuestions.length) { $('#questionMount').innerHTML='<p>No questions in this set yet.</p>'; return; }
+  const q = currentQuestions[currentIndex % currentQuestions.length];
+  const globalIndex = DATA.questions.indexOf(q);
+  $('#questionMount').innerHTML = `<div class="question-meta"><span class="pill">${shortDomain(q.domain)}</span><span class="badge">${domainLabel(q.domain)}</span><span class="badge">Question ${globalIndex+1}/${DATA.questions.length}</span></div><h3>${q.q}</h3><div class="options">${q.options.map((o,i)=>`<button class="option" data-i="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div><div class="explain" id="explain"></div>`;
+  $$('.option', $('#questionMount')).forEach(btn => btn.addEventListener('click', () => answerQuestion(q, globalIndex, Number(btn.dataset.i))));
+}
+function answerQuestion(q, globalIndex, choice) {
+  const correct = choice === q.answer;
+  state.answered[globalIndex] = {correct, choice, ts: Date.now()};
+  if (!correct && !state.missed.includes(globalIndex)) state.missed.push(globalIndex);
+  if (correct) state.missed = state.missed.filter(i => i !== globalIndex);
+  save();
+  $$('.option', $('#questionMount')).forEach((btn,i)=>{ btn.disabled=true; if(i===q.answer) btn.classList.add('correct'); if(i===choice && !correct) btn.classList.add('wrong'); });
+  const ex = $('#explain'); ex.style.display='block'; ex.innerHTML = `<strong>${correct?'Correct.':'Missed.'}</strong> ${q.why}`;
+  renderScores();
+}
+$('#nextQuestion').addEventListener('click', () => { if (mockQueue && mockQueue.length) { currentQuestions=mockQueue; currentIndex++; if(currentIndex>=mockQueue.length) currentIndex=0; } else currentIndex = (currentIndex + 1) % currentQuestions.length; renderQuestion(); });
+$('#mockExam').addEventListener('click', () => { mockQueue=shuffle(DATA.questions).slice(0,24); currentQuestions=mockQueue; currentIndex=0; $('#domainFilter').value='all'; $('#quizMode').textContent='Mock exam · 24 questions'; renderQuestion(); });
+$('#reviewMisses').addEventListener('click', () => { const misses=state.missed.map(i=>DATA.questions[i]).filter(Boolean); if(!misses.length) { alert('No missed questions saved yet.'); return; } mockQueue=misses; currentQuestions=misses; currentIndex=0; $('#quizMode').textContent=`Review missed · ${misses.length}`; renderQuestion(); });
+
+let cardOrder = DATA.flashcards.map((_,i)=>i), cardIndex=0, flipped=false;
+function renderFlash() { const [term, defn] = DATA.flashcards[cardOrder[cardIndex]]; $('#flashcard').innerHTML = flipped ? `<p>${defn}</p>` : `<strong>${term}</strong><p>Click to reveal definition</p>`; $('#flashCount').textContent = `${cardIndex+1}/${cardOrder.length}`; }
+$('#flashcard').addEventListener('click', () => { flipped=!flipped; renderFlash(); });
+$('#nextCard').addEventListener('click', () => { cardIndex=(cardIndex+1)%cardOrder.length; flipped=false; renderFlash(); });
+$('#prevCard').addEventListener('click', () => { cardIndex=(cardIndex-1+cardOrder.length)%cardOrder.length; flipped=false; renderFlash(); });
+$('#shuffleCards').addEventListener('click', () => { cardOrder=shuffle(cardOrder); cardIndex=0; flipped=false; renderFlash(); });
+
+$$('[data-check]').forEach(cb => { cb.checked=!!state.checklist[cb.dataset.check]; cb.addEventListener('change',()=>{ state.checklist[cb.dataset.check]=cb.checked; save(); }); });
+$('#glossarySearch').addEventListener('input', e => { const q=e.target.value.toLowerCase(); $$('.glossary-item').forEach(item=> item.classList.toggle('hidden', !item.textContent.toLowerCase().includes(q))); });
+$('#resetAll').addEventListener('click', () => { if(confirm('Reset all local quiz/checklist progress?')) { localStorage.removeItem(storeKey); location.reload(); } });
+initFilters(); renderQuestion(); renderScores(); renderFlash();
+</script>
+</body>
+</html>

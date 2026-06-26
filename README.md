@@ -43,6 +43,16 @@ Then open:
 http://127.0.0.1:8080
 ```
 
+## Official Microsoft Learn course path
+
+Useful official baseline:
+
+- Part 1: https://learn.microsoft.com/en-us/training/paths/gh-developing-agentic-systems-1
+- Part 2: https://learn.microsoft.com/en-us/training/paths/github-agentic-systems-part-two/github-agentic-systems-part-two
+- Instructor-led course page: https://learn.microsoft.com/en-us/training/courses/gh-600t00 — currently listed by Microsoft as available on 7/20/2026.
+
+Use Microsoft Learn for official terminology and module order; use this trainer for challenge questions, skipped/missed tracking, and mock exam pressure.
+
 ## Recommended study workflow
 
 1. Use **Visual learn** to click through the exam map.

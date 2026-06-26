@@ -6,6 +6,7 @@ Source of truth: <https://learn.microsoft.com/en-us/credentials/certifications/r
 
 ## What is included
 
+- MS Learn wrapper/reader with module cards, unit checklist, domain mapping, and drill jumps
 - Visual domain map for all six GH-600 areas
 - Wesley-specific “already know vs study next” cards
 - Interactive simulators:
@@ -51,7 +52,7 @@ Useful official baseline:
 - Part 2: https://learn.microsoft.com/en-us/training/paths/github-agentic-systems-part-two/github-agentic-systems-part-two
 - Instructor-led course page: https://learn.microsoft.com/en-us/training/courses/gh-600t00 — currently listed by Microsoft as available on 7/20/2026.
 
-Use Microsoft Learn for official terminology and module order; use this trainer for challenge questions, skipped/missed tracking, and mock exam pressure.
+Use Microsoft Learn for official terminology and module order; use the built-in MS Learn wrapper for a cleaner study interface; use this trainer for challenge questions, skipped/missed tracking, and mock exam pressure.
 
 ## Recommended study workflow
 
